@@ -1,10 +1,8 @@
 package item10;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public class PhoneNumber {
+public class PhoneNumber implements Cloneable{
     private final short areaCode, prefix, lineNum;
 
     public PhoneNumber(short areaCode, short prefix, short lineNum) {
@@ -46,6 +44,19 @@ public class PhoneNumber {
         return Objects.hash(lineNum,prefix,areaCode);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%03d-%03d-%04d",areaCode,prefix,lineNum);
+    }
+
+    @Override
+    public PhoneNumber clone() throws CloneNotSupportedException {
+        try{
+            return (PhoneNumber) super.clone();
+        }catch (CloneNotSupportedException e){
+            throw new AssertionError();
+        }
+    }
 
     public static void main(String[] args){
         //해시 맵에서 객체를 꺼내는 방법은 같은 해시코드를 가진 버킷에 동치가 성립하면 된다.
@@ -54,5 +65,8 @@ public class PhoneNumber {
 
         //2개의 인스턴스가 사용된 것
         System.out.println(m.get(new PhoneNumber((short) 1,(short)2,(short)3)));
+
+        System.out.println(new PhoneNumber((short) 1,(short)2,(short)3).toString());
+
     }
 }
