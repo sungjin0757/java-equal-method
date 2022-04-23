@@ -2,7 +2,7 @@ package item10;
 
 import java.util.*;
 
-public class PhoneNumber implements Cloneable{
+public class PhoneNumber implements Cloneable,Comparable<PhoneNumber>{
     private final short areaCode, prefix, lineNum;
 
     public PhoneNumber(short areaCode, short prefix, short lineNum) {
@@ -56,6 +56,25 @@ public class PhoneNumber implements Cloneable{
         }catch (CloneNotSupportedException e){
             throw new AssertionError();
         }
+    }
+
+    // comparator 를 메소드 체이닝 방식 생성자로 만들 수 있음.
+    private static final Comparator<PhoneNumber> COMPARATOR=Comparator.comparingInt((PhoneNumber pn) ->pn.areaCode)
+            .thenComparing(pn->pn.prefix)
+            .thenComparing(pn->pn.lineNum);
+
+    @Override
+    public int compareTo(PhoneNumber o) {
+//        int result=Short.compare(areaCode,o.areaCode);
+//        if(result==0){
+//            result=Short.compare(prefix,o.prefix);
+//            if(result==0){
+//                result=Short.compare(lineNum,o.lineNum);
+//            }
+//        }
+//        return result;
+
+        return COMPARATOR.compare(this,o);
     }
 
     public static void main(String[] args){
